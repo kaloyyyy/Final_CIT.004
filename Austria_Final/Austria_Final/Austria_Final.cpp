@@ -168,6 +168,3 @@ void filterGender(node*& head, node* current, char gFilter)
 		}
 	}
 }
-
-//no more comments.
-//Eilon testing.
