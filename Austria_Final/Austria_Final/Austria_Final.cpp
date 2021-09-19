@@ -169,8 +169,5 @@ void filterGender(node*& head, node* current, char gFilter)
 	}
 }
 
-//this is the change I made at 3 59 pm
-//new comment to respond
-//something added on the website
-//hellooooo :)
-//new changes, keno pull this - pull req worked; will this be
+//no more comments.
+//Eilon testing.
