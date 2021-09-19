@@ -143,31 +143,31 @@ void viewFriend(node* current)
 	}
 }
 
-void filterGender(node*& head, node* current, char gFilter)
-{
-	if (isEmpty(current))
-		cout << "---Your friends list is empty---\n";
-	else
-	{
-		cout << "gender filter";
-		while (current != NULL)
-		{
-			if (current->gender == gFilter)
-			{
-				cout << current->name << endl;
-				cout << current->age << endl;
-				cout << current->gender << endl;
-				cout << current->pRating << endl << endl;
-				current = current->next_ptr;
-			}
-			else
-			{//go back to this later
-
-				current = current->next_ptr;
-			}
-		}
-	}
-}
+//void filterGender(node*& head, node* current, char gFilter)
+//{
+//	if (isEmpty(current))
+//		cout << "---Your friends list is empty---\n";
+//	else
+//	{
+//		cout << "gender filter";
+//		while (current != NULL)
+//		{
+//			if (current->gender == gFilter)
+//			{
+//				cout << current->name << endl;
+//				cout << current->age << endl;
+//				cout << current->gender << endl;
+//				cout << current->pRating << endl << endl;
+//				current = current->next_ptr;
+//			}
+//			else
+//			{//go back to this later
+//
+//				current = current->next_ptr;
+//			}
+//		}
+//	}
+//}
 
 //no more comments.
 //Eilon testing.
