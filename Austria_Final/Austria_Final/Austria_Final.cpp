@@ -29,10 +29,17 @@ int main()
 {
 	node* head = NULL;
 	node* last = NULL;
+	node* current = NULL;
+
 	string name;
 	int age;
+	char gFilter;
+	int rFilter;
 	char gender;
 	int pRating;
+
+
+	char sortChoice = 'x';
 	char choice = 'x';
 	string eyf = "enter your friend's ";
 	do {
@@ -55,6 +62,7 @@ int main()
 			break;
 
 		case 'b':
+			filter(head, current, gFilter, rFilter);
 			break;
 		}
 	} while (choice != 'e');
@@ -143,6 +151,15 @@ void viewFriend(node* current)
 	}
 }
 
+void filter(node*& head, node* current, char gFilter, int rFilter)
+{
+	char sortChoice;
+	cout << "a. sort friends by gender\n";
+	cout << "b. sort friends by popularity rating\n";
+	cin >> sortChoice;
+	cin.ignore();
+}
+
 void filterGender(node*& head, node* current, char gFilter)
 {
 	if (isEmpty(current))
@@ -161,8 +178,7 @@ void filterGender(node*& head, node* current, char gFilter)
 				current = current->next_ptr;
 			}
 			else
-			{//go back to this later
-
+			{
 				current = current->next_ptr;
 			}
 		}
