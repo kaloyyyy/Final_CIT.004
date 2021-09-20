@@ -25,6 +25,7 @@ void deleteFriend();
 
 void filterFriend(node* current, char gFilter, int rFilter);
 void filterGender(node* current, char gfilter);
+void filterRating(node* current, int rfilter);
 
 int main()
 {
@@ -176,6 +177,10 @@ void filterFriend(node* current, char gFilter, int rFilter)// the menu for filte
 			filterGender(current, gFilter);
 			break;
 		case 'b':
+			cout << "enter the rating you want to filter\n";
+			cin >> rFilter;
+			cin.ignore();
+			filterRating(current, rFilter);
 			break;
 		}
 	}
@@ -199,5 +204,24 @@ void filterGender(node* current, char gFilter)//gender filter function. it will 
 			current = current->next_ptr;
 		}
 	}
+}
 
+void filterRating(node* current, int rFilter)//popularity rating filter function. 
+{
+	cout << "Popularity rating filter\n";
+	while (current != NULL)
+	{
+		if (current->pRating <= rFilter)
+		{
+			cout << current->name << endl;
+			cout << current->age << endl;
+			cout << current->gender << endl;
+			cout << current->pRating << endl << endl;
+			current = current->next_ptr;
+		}
+		else
+		{
+			current = current->next_ptr;
+		}
+	}
 }
