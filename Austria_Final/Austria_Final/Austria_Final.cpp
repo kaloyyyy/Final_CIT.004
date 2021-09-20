@@ -262,6 +262,7 @@ void filterGender(node* current, char gFilter)//gender filter function. it will 
 	}
 }
 
+
 void filterRating(node* current, int rFilter)//popularity rating filter function. 
 {
 	cout << "Popularity rating filter\n";
