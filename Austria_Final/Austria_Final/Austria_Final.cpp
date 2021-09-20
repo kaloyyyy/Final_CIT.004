@@ -180,6 +180,23 @@ void viewFriendList(node* current)//temporaty viewing for the friends list. it w
 void viewOneFriend(node* current)
 {
 	string viewName;
+	cout << "enter the complete name you want to view\n";
+	getline(cin, viewName);
+	while (current != NULL)
+	{
+		if (viewName == current->name)
+		{
+			cout << current->name << endl;
+			cout << current->age << endl;
+			cout << current->gender << endl;
+			cout << current->pRating << endl << endl;
+		}
+		else
+		{
+			cout << "searching...\n";
+		}
+		cout << "No matches found, check spelling\n";
+	}
 
 }
 
@@ -219,6 +236,7 @@ void filterFriend(node* current)// the menu for filtering.
 void filterGender(node* current, char gFilter)//gender filter function. it will print all the matching inputted gender.
 {
 	cout << "gender filter\n";
+	bool genderMatch = false;
 	while (current != NULL)
 	{
 		if (gFilter == current->gender)
@@ -228,10 +246,18 @@ void filterGender(node* current, char gFilter)//gender filter function. it will 
 			cout << current->gender << endl;
 			cout << current->pRating << endl << endl;
 			current = current->next_ptr;
+			genderMatch = true;//once there's a matching gender, this will be true and will not print the prompt below
 		}
 		else
 		{
 			current = current->next_ptr;
+			if (current == NULL)//if you're at the last node and there are zero matches with the filter, it will run the code below
+			{
+				if (genderMatch == false)
+				{
+					cout << "You have no friends with the selected gender\n";
+				}
+			}
 		}
 	}
 }
@@ -239,6 +265,7 @@ void filterGender(node* current, char gFilter)//gender filter function. it will 
 void filterRating(node* current, int rFilter)//popularity rating filter function. 
 {
 	cout << "Popularity rating filter\n";
+	bool ratingMatch = false;
 	while (current != NULL)
 	{
 		if (current->pRating <= rFilter)
@@ -248,10 +275,18 @@ void filterRating(node* current, int rFilter)//popularity rating filter function
 			cout << current->gender << endl;
 			cout << current->pRating << endl << endl;
 			current = current->next_ptr;
+			ratingMatch = true;//once there's a matching gender, this will be true and will not print the prompt below
 		}
 		else
 		{
 			current = current->next_ptr;
+			if (current == NULL)//if you're at the last node and there are zero matches with the filter, it will run the code below
+			{
+				if (ratingMatch == false)
+				{
+					cout << "You have no friends with the rating equal or below: " << rFilter << endl;
+				}
+			}
 		}
 	}
 }
