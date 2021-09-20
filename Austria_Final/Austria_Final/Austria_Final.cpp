@@ -21,9 +21,12 @@ void firstFriend(node*& head, node*& last, string name, int age, char gender, in
 void addFriend(node*& head, node*& last, string name, int age, char gender, int pRating);
 
 void viewFriend(node* current);
+void viewFriendList(node* current);
+void viewOneFriend(node* current);
+
 void deleteFriend();
 
-void filterFriend(node* current, char gFilter, int rFilter);
+void filterFriend(node* current);
 void filterGender(node* current, char gfilter);
 void filterRating(node* current, int rfilter);
 
@@ -34,8 +37,7 @@ int main()
 
 	string name;
 	int age = 0;
-	char gFilter = 'x';
-	int rFilter = 100;
+
 	char gender = 'x';
 	int pRating = 0;
 
@@ -63,15 +65,15 @@ int main()
 			break;
 
 		case 'b':
-			filterFriend(head, gFilter, rFilter);
+			filterFriend(head);
 			break;
 		case 'c':
-			viewFriend(head);
+			viewFriendList(head);
 			break;
 		}
 	} while (choice != 'e');
 
-	viewFriend(head);
+	viewFriendList(head);
 	return 0;
 
 }
@@ -137,26 +139,55 @@ void addFriend(node*& head, node*& last, string name, int age, char gender, int 
 
 }
 
-void viewFriend(node* current)//temporaty viewing for the friends list. it will be splitted into view by one friend and viewing all friends.
+void viewFriend(node*current)
 {
+	char viewChoice;
 	if (isEmpty(current))
-		cout << "---Your friends list is empty---\n";
+	{
+		cout << "your friends list is empty\n";
+	}
 	else
 	{
-		cout << "Your\n";
-		while (current != NULL)
+		cout << "a. view a specific person\n";
+		cout << "b. view your friends list\n";
+		cin >> viewChoice;
+		cin.ignore();
+		switch (viewChoice)
 		{
-			cout << current->name << endl;
-			cout << current->age << endl;
-			cout << current->gender << endl;
-			cout << current->pRating << endl << endl;
-			current = current->next_ptr;
+		case 'a':
+			//view specific person
+			break;
+		case 'b':
+			viewFriendList(current);
+			break;
 		}
 	}
 }
 
-void filterFriend(node* current, char gFilter, int rFilter)// the menu for filtering.
+void viewFriendList(node* current)//temporaty viewing for the friends list. it will be splitted into view by one friend and viewing all friends.
 {
+	cout << "---Your Friends list---\n";
+	while (current != NULL)
+	{
+		cout << current->name << endl;
+		cout << current->age << endl;
+		cout << current->gender << endl;
+		cout << current->pRating << endl << endl;
+		current = current->next_ptr;
+	}
+}
+
+void viewOneFriend(node* current)
+{
+	string viewName;
+
+}
+
+
+void filterFriend(node* current)// the menu for filtering.
+{
+	char gFilter;
+	int rFilter;
 	if (isEmpty(current))
 	{
 		cout << "your friends list is empty\n";
