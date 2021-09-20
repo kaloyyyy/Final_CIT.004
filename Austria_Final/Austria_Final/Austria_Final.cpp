@@ -75,7 +75,7 @@ int main()
 
 }
 
-char menu()
+char menu()//main menu
 {
 	char choice;
 	cout << "a. add a friend\n";
@@ -88,7 +88,7 @@ char menu()
 	return choice;
 }
 
-bool isEmpty(node* head)
+bool isEmpty(node* head)//checks if the linkedlist is empty
 {
 	if (head == NULL)
 	{
@@ -99,7 +99,7 @@ bool isEmpty(node* head)
 		return false;
 }
 
-void firstFriend(node*& head, node*& last, string name, int age, char gender, int pRating)
+void firstFriend(node*& head, node*& last, string name, int age, char gender, int pRating)//this function is called in addFriend. it is called when the linkedlist is empty
 {
 	node* temp = new node;
 
@@ -114,7 +114,7 @@ void firstFriend(node*& head, node*& last, string name, int age, char gender, in
 	last = temp;
 }
 
-void addFriend(node*& head, node*& last, string name, int age, char gender, int pRating)
+void addFriend(node*& head, node*& last, string name, int age, char gender, int pRating)//adds a new friend
 {
 	if (isEmpty(head))
 	{
@@ -136,7 +136,7 @@ void addFriend(node*& head, node*& last, string name, int age, char gender, int 
 
 }
 
-void viewFriend(node* current)
+void viewFriend(node* current)//temporaty viewing for the friends list. it will be splitted into view by one friend and viewing all friends.
 {
 	if (isEmpty(current))
 		cout << "---Your friends list is empty---\n";
@@ -154,7 +154,7 @@ void viewFriend(node* current)
 	}
 }
 
-void filterFriend(node* current, char gFilter, int rFilter)
+void filterFriend(node* current, char gFilter, int rFilter)// the menu for filtering.
 {
 	if (isEmpty(current))
 	{
@@ -181,7 +181,7 @@ void filterFriend(node* current, char gFilter, int rFilter)
 	}
 }
 
-void filterGender(node* current, char gFilter)
+void filterGender(node* current, char gFilter)//gender filter function. it will print all the matching inputted gender.
 {
 	cout << "gender filter\n";
 	while (current != NULL)
