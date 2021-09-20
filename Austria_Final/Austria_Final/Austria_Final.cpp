@@ -37,28 +37,27 @@ int main()
 
 	string name;
 	int age = 0;
-
 	char gender = 'x';
 	int pRating = 0;
 
 
 	char sortChoice = 'x';
 	char choice = 'x';
-	string eyf = "enter your friend's ";
 	do {
 		choice = menu();
 		switch (choice)
 		{
 		case 'a':
-			cout << eyf << "name: \n";
+
+			cout << "enter your friend's name: \n";
 			getline(cin, name);
-			cout << eyf << "age: \n";
+			cout << "enter " << name << "'s " << "age: \n";
 			cin >> age;
 			cin.ignore();
-			cout << eyf << "gender: \n";
+			cout << "enter " << name << "'s " << "gender: \n";
 			cin >> gender;
 			cin.ignore();
-			cout << eyf << "Popularity Rating: \n";
+			cout << "enter " << name << "'s " << "Popularity Rating: \n";
 			cin >> pRating;
 			cin.ignore();
 			addFriend(head, last, name, age, gender, pRating);
@@ -68,7 +67,7 @@ int main()
 			filterFriend(head);
 			break;
 		case 'c':
-			viewFriendList(head);
+			viewFriend(head);
 			break;
 		}
 	} while (choice != 'e');
@@ -154,8 +153,8 @@ void viewFriend(node* current)
 		cin.ignore();
 		switch (viewChoice)
 		{
-		case 'a':
-			//view specific person
+		case 'a'://view specific person
+			viewOneFriend(current);
 			break;
 		case 'b':
 			viewFriendList(current);
@@ -164,7 +163,7 @@ void viewFriend(node* current)
 	}
 }
 
-void viewFriendList(node* current)//temporaty viewing for the friends list. it will be splitted into view by one friend and viewing all friends.
+void viewFriendList(node* current)//prints out the friends list
 {
 	cout << "---Your Friends list---\n";
 	while (current != NULL)
@@ -179,25 +178,34 @@ void viewFriendList(node* current)//temporaty viewing for the friends list. it w
 
 void viewOneFriend(node* current)
 {
+	bool nameMatch = false;
 	string viewName;
-	cout << "enter the complete name you want to view\n";
+	cout << "enter your friend's complete name you want to view\n";
 	getline(cin, viewName);
 	while (current != NULL)
 	{
+		cout << "searching...\n";
 		if (viewName == current->name)
 		{
 			cout << current->name << endl;
 			cout << current->age << endl;
 			cout << current->gender << endl;
 			cout << current->pRating << endl << endl;
+			current = current->next_ptr;
+			nameMatch = true;
 		}
 		else
 		{
-			cout << "searching...\n";
+			current = current->next_ptr;
+			if (current == NULL)
+			{
+				if (nameMatch == false)
+				{
+					cout << "You have no friends with name: " << viewName << endl;
+				}
+			}
 		}
-		cout << "No matches found, check spelling\n";
 	}
-
 }
 
 void filterFriend(node* current)// the menu for filtering.
@@ -232,7 +240,6 @@ void filterFriend(node* current)// the menu for filtering.
 		}
 	}
 }
-
 void filterGender(node* current, char gFilter)//gender filter function. it will print all the matching inputted gender.
 {
 	cout << "gender filter\n";
@@ -261,8 +268,6 @@ void filterGender(node* current, char gFilter)//gender filter function. it will 
 		}
 	}
 }
-
-
 void filterRating(node* current, int rFilter)//popularity rating filter function. 
 {
 	cout << "Popularity rating filter\n";
