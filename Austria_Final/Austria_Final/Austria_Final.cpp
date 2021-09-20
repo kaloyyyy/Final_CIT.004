@@ -183,7 +183,6 @@ void viewOneFriend(node* current)
 
 }
 
-
 void filterFriend(node* current)// the menu for filtering.
 {
 	char gFilter;
