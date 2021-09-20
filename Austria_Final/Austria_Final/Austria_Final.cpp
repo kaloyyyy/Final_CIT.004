@@ -19,24 +19,24 @@ bool isEmpty(node* head);
 
 void firstFriend(node*& head, node*& last, string name, int age, char gender, int pRating);
 void addFriend(node*& head, node*& last, string name, int age, char gender, int pRating);
-void filterFriend();
+
 void viewFriend(node* current);
 void deleteFriend();
 
-void filterGender(node*& head, node* current, char gfilter);
+void filterFriend(node* current, char gFilter, int rFilter);
+void filterGender(node* current, char gfilter);
 
 int main()
 {
 	node* head = NULL;
 	node* last = NULL;
-	node* current = NULL;
 
 	string name;
-	int age;
-	char gFilter;
-	int rFilter;
-	char gender;
-	int pRating;
+	int age = 0;
+	char gFilter = 'x';
+	int rFilter = 100;
+	char gender = 'x';
+	int pRating = 0;
 
 
 	char sortChoice = 'x';
@@ -62,7 +62,10 @@ int main()
 			break;
 
 		case 'b':
-			filter(head, current, gFilter, rFilter);
+			filterFriend(head, gFilter, rFilter);
+			break;
+		case 'c':
+			viewFriend(head);
 			break;
 		}
 	} while (choice != 'e');
@@ -151,36 +154,50 @@ void viewFriend(node* current)
 	}
 }
 
-void filter(node*& head, node* current, char gFilter, int rFilter)
-{
-	char sortChoice;
-	cout << "a. sort friends by gender\n";
-	cout << "b. sort friends by popularity rating\n";
-	cin >> sortChoice;
-	cin.ignore();
-}
-
-void filterGender(node*& head, node* current, char gFilter)
+void filterFriend(node* current, char gFilter, int rFilter)
 {
 	if (isEmpty(current))
-		cout << "---Your friends list is empty---\n";
+	{
+		cout << "your friends list is empty\n";
+	}
 	else
 	{
-		cout << "gender filter";
-		while (current != NULL)
+		char sortChoice;
+		cout << "a. sort friends by gender\n";
+		cout << "b. sort friends by popularity rating\n";
+		cin >> sortChoice;
+		cin.ignore();
+		switch (sortChoice)
 		{
-			if (current->gender == gFilter)
-			{
-				cout << current->name << endl;
-				cout << current->age << endl;
-				cout << current->gender << endl;
-				cout << current->pRating << endl << endl;
-				current = current->next_ptr;
-			}
-			else
-			{
-				current = current->next_ptr;
-			}
+		case 'a':
+			cout << "enter the gender you want to sort\n";
+			cin >> gFilter;
+			cin.ignore();
+			filterGender(current, gFilter);
+			break;
+		case 'b':
+			break;
 		}
 	}
+}
+
+void filterGender(node* current, char gFilter)
+{
+	cout << "gender filter\n";
+	while (current != NULL)
+	{
+		if (gFilter == current->gender)
+		{
+			cout << current->name << endl;
+			cout << current->age << endl;
+			cout << current->gender << endl;
+			cout << current->pRating << endl << endl;
+			current = current->next_ptr;
+		}
+		else
+		{
+			current = current->next_ptr;
+		}
+	}
+
 }
