@@ -18,6 +18,12 @@ char menu();
 bool emptyCheck(node* head);
 void firstFriend(node*& head, node*& last, string name, int age, char gender, int popularity);
 void addFriend(node*& head, node*& last, string name, int age, char gender, int popularity);
+void viewFriend(node* cur);
+void viewAll(node* cur);
+void viewOne(node* cur);
+void deleteFriend(node*& head, string name);
+//void deleteAFriend(node*& head);//
+
 
 int main()
 {
@@ -26,7 +32,7 @@ int main()
 	string name;
 	int age;
 	char gender;
-	int pRating;
+	int popularity;
 	char choice;
 	string eyf = "enter your friend's ";
 	do {
@@ -51,10 +57,17 @@ int main()
 
 		case 'b':
 			break;
+		case 'c':
+			viewFriend(head);
+			break;
+		case 'd':
+			cin >> name;
+			deleteFriend(head, name);
+			break;
 		}
 	} while (choice != 'e');
 
-	viewFriend(head);
+	//viewFriend(head);//
 	return 0;
 
 }
@@ -76,7 +89,6 @@ bool emptyCheck(node* head)
 {
 	if (head == NULL)
 	{
-		cout << "Empty: you have not added any friends\n";
 		return true;
 	}
 	else
@@ -86,36 +98,143 @@ bool emptyCheck(node* head)
 void firstFriend(node*& head, node*& last, string name, int age, char gender, int popularity)////addFriend will use this function when head is null
 {
 	node* temporary = new node;
-	temp->name = name;
-	temp->age = age;
-	temp->gender = gender;
-	temp->popularity = popularity;
+	temporary->name = name;
+	temporary->age = age;
+	temporary->gender = gender;
+	temporary->popularity = popularity;
 
-	temp->next_ptr = NULL;
+	temporary->nextptr = NULL;
 
-	head = temp;
-	last = temp;
+	head = temporary;
+	last = temporary;
 }
 
 void addFriend(node*& head, node*& last, string name, int age, char gender, int popularity)
 {
-	if (isEmpty(head))
+	if (emptyCheck(head))
 	{
 		firstFriend(head, last, name, age, gender, popularity);
 	}
 	else
 	{
-		node* temp = new node;
+		node* temporary = new node;
 
-		temp->name = name;
-		temp->age = age;
-		temp->gender = gender;
-		temp->pRating = pRating;
+		temporary->name = name;
+		temporary->age = age;
+		temporary->gender = gender;
+		temporary->popularity = popularity;
 
-		temp->next_ptr = NULL;
-		last->next_ptr = temp;
-		last = temp;
+		temporary->nextptr = NULL;
+		last->nextptr = temporary;
+		last = temporary;
 	}
-
 }
 
+void viewFriend(node* cur)
+{
+	char selection;
+	if (emptyCheck(cur))
+	{
+		cout << "EMPTY FRIEND LIST\n";
+	}
+	else {
+		cout << "s. Specific view\n";
+		cout << "a. All friends view\n";
+		cin >> selection;
+		cin.ignore();
+		switch (selection)
+		{
+		case 's':
+			viewOne(cur);
+			break;
+		case 'a':
+			viewAll(cur);
+			break;
+		}
+	}
+}
+
+void viewOne(node* cur)
+{
+	string inputName;
+	bool foundIt = false;
+	cout << "INPUT NAME OF FRIEND U WISH TO SEE\n";
+	getline(cin, inputName);
+	while (cur != NULL)
+	{
+		cout << "---...---\n";
+		if (inputName == cur->name)
+		{
+			cout << cur->name << endl;
+			cout << cur->age << endl;
+			cout << cur->gender << endl;
+			cout << cur->popularity << endl << endl;
+			cur = cur->nextptr;
+			foundIt = true;
+		}
+		else
+		{
+			cur = cur->nextptr;
+			if (cur == NULL) {
+				if (foundIt == false)
+				{
+					cout << "no friend with that name found";
+				}
+			}
+		}
+	}
+}
+
+void viewAll(node* cur)
+{
+	cout << "--Friends---\n";
+	while (cur != NULL)
+	{
+		cout << cur->name << endl;
+		cout << cur->age << endl;
+		cout << cur->gender << endl;
+		cout << cur->popularity << endl << endl;
+		cur = cur->nextptr;
+	}
+}
+
+
+void deleteFriend(node*& head, string name)//wrong
+{
+	node* tmp = head;
+	while (head->name == name)
+	{
+		head = head->nextptr;
+	}
+	while (tmp->nextptr != NULL)
+	{
+		if (tmp->nextptr->name == name)
+		{
+			tmp->nextptr = tmp->nextptr->nextptr;
+		}
+		else
+		{
+			tmp = tmp->nextptr;
+		}
+	}
+}
+
+/*void deleteAFriend(node*& head)
+{
+	string inputName;
+	cout << "Input name of friend you want to delete :(\n";
+	getline(cin, inputName);
+	while (head != NULL)
+	{
+		if (inputName == head->name)
+		{
+			node* current = new node;
+			node* previous = new node;
+			current = head;
+			previous = current;
+			current = current->nextptr;
+			previous->nextptr = current->nextptr;
+		}
+	}
+}
+*/
