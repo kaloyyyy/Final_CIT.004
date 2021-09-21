@@ -138,7 +138,7 @@ void addFriend(node*& head, node*& last, string name, int age, char gender, int 
 
 }
 
-void viewFriend(node* current)
+void viewFriend(node* current)//view friend menu
 {
 	char viewChoice;
 	if (isEmpty(current))
