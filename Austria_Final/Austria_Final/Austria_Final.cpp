@@ -29,7 +29,7 @@ void viewFriendList(node* current);
 void viewOneFriend(node* current);
 
 void deleteFriend(node*&head, node*& last, node*current);
-void delOneFriend(node*& head, node*& last, node* current);
+void delOneFriend(node*& head);
 
 
 int main()
@@ -317,7 +317,7 @@ void deleteFriend(node*& head, node*& last, node* current)
 		switch (delChoice)
 		{
 		case'a':
-			delOneFriend(head, last, head);
+			delOneFriend(head);
 			break;
 		case'b':
 			cout << "enter the popularity rating you want to remove from your friends list\n";
@@ -329,7 +329,7 @@ void deleteFriend(node*& head, node*& last, node* current)
 
 }
 
-void delOneFriend(node*& head, node*& last, node* current)
+void delOneFriend(node*& head)
 {
 	node* temp;
 	string nameDelete;
@@ -346,24 +346,22 @@ void delOneFriend(node*& head, node*& last, node* current)
 		node* prev = new node;
 		now = head;
 		cout << "searching for " << nameDelete << "'s account...\n\n";
-		while (current != NULL)
+		while (now != NULL)
 		{
-			if (nameDelete == current->name)
+			if (nameDelete == now->name)
 			{
 				if (nameDelete == head->name)
 				{
-					head = head->next_ptr;
+					head = now->next_ptr;
 					return;
 				}
-				prev = now;
-				now = now->next_ptr;
-				current = current->next_ptr;
+				else
+				{
+					prev->next_ptr = now->next_ptr;
+				}
 			}
-			else
-			{
-				current = current->next_ptr;
-			}
-			prev->next_ptr = now->next_ptr;
+			prev = now;
+			now = now->next_ptr;
 		}
 	}	
 }
