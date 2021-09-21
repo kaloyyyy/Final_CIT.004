@@ -20,15 +20,17 @@ bool isEmpty(node* head);
 void firstFriend(node*& head, node*& last, string name, int age, char gender, int pRating);
 void addFriend(node*& head, node*& last, string name, int age, char gender, int pRating);
 
+void filterFriend(node* current);
+void filterGender(node* current, char gfilter);
+void filterRating(node* current, int rfilter);
+
 void viewFriend(node* current);
 void viewFriendList(node* current);
 void viewOneFriend(node* current);
 
-void deleteFriend();
+void deleteFriend(node*&head, node*& last, node*current);
+void delOneFriend(node*& head, node*& last, node* current);
 
-void filterFriend(node* current);
-void filterGender(node* current, char gfilter);
-void filterRating(node* current, int rfilter);
 
 int main()
 {
@@ -69,6 +71,8 @@ int main()
 		case 'c':
 			viewFriend(head);
 			break;
+		case 'd':
+			deleteFriend(head,last,head);
 		}
 	} while (choice != 'e');
 
@@ -240,6 +244,7 @@ void filterFriend(node* current)// the menu for filtering.
 		}
 	}
 }
+
 void filterGender(node* current, char gFilter)//gender filter function. it will print all the matching inputted gender.
 {
 	cout << "gender filter\n";
@@ -295,4 +300,70 @@ void filterRating(node* current, int rFilter)//popularity rating filter function
 			}
 		}
 	}
+}
+
+void deleteFriend(node*& head, node*& last, node* current)
+{
+	int rDelete;
+	if (isEmpty(current))
+		cout << "your friends listis empty\n";
+	else
+	{
+		char delChoice;
+		cout << "a. delete a friend by name\n";
+		cout << "b. delete friends based on popularity rating\n";
+		cin >> delChoice;
+		cin.ignore();
+		switch (delChoice)
+		{
+		case'a':
+			delOneFriend(head, last, head);
+			break;
+		case'b':
+			cout << "enter the popularity rating you want to remove from your friends list\n";
+			cin >> rDelete;
+			cin.ignore();
+			break;
+		}
+	}
+
+}
+
+void delOneFriend(node*& head, node*& last, node* current)
+{
+	node* temp;
+	string nameDelete;
+	bool nameMatch = false;
+	if (isEmpty(head))
+	{
+		cout << "your friends listis empty\n";
+	}
+	else
+	{
+		cout << "enter your friend's full name you want to delete\n";
+		getline(cin, nameDelete);
+		node* now = new node;
+		node* prev = new node;
+		now = head;
+		cout << "searching for " << nameDelete << "'s account...\n\n";
+		while (current != NULL)
+		{
+			if (nameDelete == current->name)
+			{
+				if (nameDelete == head->name)
+				{
+					head = head->next_ptr;
+					return;
+				}
+				prev = now;
+				now = now->next_ptr;
+				current = current->next_ptr;
+			}
+			else
+			{
+				current = current->next_ptr;
+			}
+			prev->next_ptr = now->next_ptr;
+		}
+	}	
 }
