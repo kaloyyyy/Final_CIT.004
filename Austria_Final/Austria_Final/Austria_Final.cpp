@@ -30,6 +30,7 @@ void viewOneFriend(node* current);
 
 void deleteFriend(node*&head, node*& last, node*current);
 void delOneFriend(node*& head);
+void delRating(node*& head);
 
 
 int main()
@@ -320,9 +321,7 @@ void deleteFriend(node*& head, node*& last, node* current)
 			delOneFriend(head);
 			break;
 		case'b':
-			cout << "enter the popularity rating you want to remove from your friends list\n";
-			cin >> rDelete;
-			cin.ignore();
+			delRating(head);
 			break;
 		}
 	}
@@ -331,7 +330,6 @@ void deleteFriend(node*& head, node*& last, node* current)
 
 void delOneFriend(node*& head)
 {
-	node* temp;
 	string nameDelete;
 	bool nameMatch = false;
 	if (isEmpty(head))
@@ -350,10 +348,51 @@ void delOneFriend(node*& head)
 		{
 			if (nameDelete == now->name)
 			{
+				nameMatch = true;
 				if (nameDelete == head->name)
 				{
 					head = now->next_ptr;
-					return;
+				}
+				else
+				{
+					prev->next_ptr = now->next_ptr;
+				}
+				cout << nameDelete << " is now removed from your friend list\n";
+			}
+			prev = now;
+			now = now->next_ptr;
+		}
+		if (nameMatch == false)
+		{
+			cout << "You have no friends with name: " << nameDelete << endl;
+		}
+	}	
+}
+
+void delRating(node*& head)
+{
+	int ratingDelete;
+	bool ratingMatch = false;
+	if (isEmpty(head))
+	{
+		cout << "your friend list is empty\n";
+	}
+	else
+	{
+		cout << "enter your friends' rating you want to unfriend\n";
+		cin >> ratingDelete;
+		cin.ignore();
+		node* now = new node;
+		node* prev = new node;
+		now = head;
+		cout << "searching for friends with a rating of: " <<ratingDelete<< "\n\n";
+		while (now != NULL)
+		{
+			if (ratingDelete == now->pRating)
+			{
+				if (ratingDelete == head->pRating)
+				{
+					head = now->next_ptr;
 				}
 				else
 				{
@@ -363,5 +402,9 @@ void delOneFriend(node*& head)
 			prev = now;
 			now = now->next_ptr;
 		}
-	}	
+		if (ratingMatch == false)
+		{
+			cout << "you do not have a friend with the popularity rating of: " << ratingDelete << endl;
+		}
+	}
 }
