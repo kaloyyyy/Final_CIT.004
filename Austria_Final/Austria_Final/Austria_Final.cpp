@@ -30,7 +30,7 @@ void filterRating(node* current);
 void viewFriend(node* current);
 void viewOneFriend(node* current);
 
-void deleteFriend(node*&head, node*& last, node*current);
+void deleteFriend(node*&head, node*current);
 void delOneFriend(node*& head);
 void delRating(node*& head);
 
@@ -142,7 +142,7 @@ int main()
 			break;
 		case 'd':
 			system("CLS");
-			deleteFriend(head,last,head);
+			deleteFriend(head,head);
 		}
 	} while (choice != 'e');
 
@@ -420,7 +420,7 @@ void viewOneFriend(node* current)
 	}
 }
 
-void deleteFriend(node*& head, node*& last, node* current)
+void deleteFriend(node*& head, node* current)
 {
 	if (isEmpty(current))
 	{
