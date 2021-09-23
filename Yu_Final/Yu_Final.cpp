@@ -80,12 +80,12 @@ void addFriend (node *&head, node *&last, string name, char gender, int age, int
 }
 void deleteFriend (node *&head, string Name)
 {
-	node* traverse = head;
+    node* traverse = head;
     node* previous = NULL;
      
 
-    if (traverse != NULL && traverse->name == Name)
-    {
+    if (traverse != NULL && traverse->name == Name)//instead of && (and) operator, try mo 'if' within a 'if' operator.
+    {//also may loop yung delete ko, while(traverse!=NULL).
         head = traverse->next_ptr; 
         delete traverse;            
         return;
@@ -327,8 +327,8 @@ int main()
 				break;
 				
 			case 'B':
-				cin >> Name;
-				deleteFriend (head, Name);
+				cin >> Name;//kerbs try mo getline if you want full name. tapos ibang string dapat. something like string delName or similar
+				deleteFriend (head, Name);//pwede mo ilagay yung cin mo sa deletefriend itself, para deletefriend(head); nalang siya dito
 			    viewFriend (head);
 			    break;
 			    
