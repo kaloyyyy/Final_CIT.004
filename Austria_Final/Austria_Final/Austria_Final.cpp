@@ -1,6 +1,7 @@
 #include<iostream>
-#include<stdlib.h>
-#include<string>
+#include<stdlib.h>//for system("CLS");
+#include<string>//for getline for string;
+#include<limits>//for limit in cin.ignore
 using namespace std;
 
 class node
@@ -13,34 +14,37 @@ public:
 	node* next_ptr;
 };
 
+string profile[4] = { "name: ","age: ","gender: ","popularity rating: " };
 
+int friendCnt = 0;
 char menu();
 bool isEmpty(node* head);
+void validateInt();
+void printFriend(node* current);
 
 void firstFriend(node*& head, node*& last, string name, int age, char gender, int pRating);
 void addFriend(node*& head, node*& last, string name, int age, char gender, int pRating);
 
+void filterFriend(node* current);
+void filterGender(node* current);
+void filterRating(node* current);
+
 void viewFriend(node* current);
-void viewFriendList(node* current);
 void viewOneFriend(node* current);
 
-void deleteFriend();
-
-void filterFriend(node* current);
-void filterGender(node* current, char gfilter);
-void filterRating(node* current, int rfilter);
+void deleteFriend(node*&head, node*current);
+void delOneFriend(node*& head);
+void delRating(node*& head);
 
 int main()
 {
 	node* head = NULL;
 	node* last = NULL;
-
 	string name;
 	int age = 0;
 	char gender = 'x';
 	int pRating = 0;
-
-
+	bool gCheck = true;
 	char sortChoice = 'x';
 	char choice = 'x';
 	do {
@@ -48,37 +52,105 @@ int main()
 		switch (choice)
 		{
 		case 'a':
-
+			system("CLS");
 			cout << "enter your friend's name: \n";
+			cin.ignore();
 			getline(cin, name);
+
 			cout << "enter " << name << "'s " << "age: \n";
 			cin >> age;
-			cin.ignore();
-			cout << "enter " << name << "'s " << "gender: \n";
+			do{
+				if (age < 0)
+				{
+					validateInt();
+					cout << "please enter a valid age\n";
+					cin >> age;
+				}
+				do {
+					if (cin.fail())
+					{
+						validateInt();
+						cout << "please enter a valid age\n";
+						cin >> age;
+					}
+				} while (cin.fail());
+			} while (age < 0);
+
+			cout << "enter " << name << "'s " << "gender: (M or F)\n";
 			cin >> gender;
 			cin.ignore();
-			cout << "enter " << name << "'s " << "Popularity Rating: \n";
+			do {
+				if (gender != 'M')
+				{
+					if (gender != 'F')
+					{
+						gCheck = false;
+						cout << "please enter a valid gender(M or F)\n";
+						cin >> gender;
+					}
+					else
+					{
+						gCheck = true;
+					}
+				}
+				else
+				{
+					gCheck = true;
+				}
+			} while (gCheck == false);
+
+			cout << "enter " << name << "'s " << "Popularity Rating: (0-100)\n";
 			cin >> pRating;
-			cin.ignore();
+			do {
+				do {
+					do {
+						if (pRating < 0)
+						{
+							validateInt();
+							cout << "please enter a valid popularity rating (0-100)\n";
+							cin >> pRating;
+						}
+						if (pRating > 100)
+						{
+							validateInt();
+							cout << "please enter a valid popularity rating (0-100)\n";
+							cin >> pRating;
+						}
+						if (cin.fail())
+						{
+							validateInt();
+							cout << "please enter a valid popularity rating (0-100)\n";
+							cin >> pRating;
+						}
+					} while (pRating > 100);
+				} while (cin.fail());
+			} while (pRating < 0);
+
+			system("CLS");
+			cout<<name<<" is now your friend!\n\n";
 			addFriend(head, last, name, age, gender, pRating);
 			break;
 
 		case 'b':
+			system("CLS");
 			filterFriend(head);
 			break;
 		case 'c':
+			system("CLS");
 			viewFriend(head);
 			break;
+		case 'd':
+			system("CLS");
+			deleteFriend(head,head);
 		}
 	} while (choice != 'e');
 
-	viewFriendList(head);
 	return 0;
-
 }
 
 char menu()//main menu
 {
+	cout << "friends: " << friendCnt << endl<<endl;
 	char choice;
 	cout << "a. add a friend\n";
 	cout << "b. filter friends list\n";
@@ -86,15 +158,21 @@ char menu()//main menu
 	cout << "d. unfriend someone\n";
 	cout << "e. close the program\n";
 	cin >> choice;
-	cin.ignore();
 	return choice;
+}
+
+void printFriend(node* current)//added this to call this in four diffenrent functions instead of typing these four lines of code in each of them
+{
+	cout << profile[0] << current->name << endl;
+	cout << profile[1] << current->age << endl;
+	cout << profile[2] << current->gender << endl;
+	cout << profile[3] << current->pRating << endl << endl;
 }
 
 bool isEmpty(node* head)//checks if the linkedlist is empty
 {
 	if (head == NULL)
 	{
-		cout << "yes\n";
 		return true;
 	}
 	else
@@ -135,86 +213,15 @@ void addFriend(node*& head, node*& last, string name, int age, char gender, int 
 		last->next_ptr = temp;
 		last = temp;
 	}
-
-}
-
-void viewFriend(node* current)//view friend menu
-{
-	char viewChoice;
-	if (isEmpty(current))
-	{
-		cout << "your friends list is empty\n";
-	}
-	else
-	{
-		cout << "a. view a specific person\n";
-		cout << "b. view your friends list\n";
-		cin >> viewChoice;
-		cin.ignore();
-		switch (viewChoice)
-		{
-		case 'a'://view specific person
-			viewOneFriend(current);
-			break;
-		case 'b':
-			viewFriendList(current);
-			break;
-		}
-	}
-}
-
-void viewFriendList(node* current)//prints out the friends list
-{
-	cout << "---Your Friends list---\n";
-	while (current != NULL)
-	{
-		cout << current->name << endl;
-		cout << current->age << endl;
-		cout << current->gender << endl;
-		cout << current->pRating << endl << endl;
-		current = current->next_ptr;
-	}
-}
-
-void viewOneFriend(node* current)
-{
-	bool nameMatch = false;
-	string viewName;
-	cout << "enter your friend's complete name you want to view\n";
-	getline(cin, viewName);
-	while (current != NULL)
-	{
-		cout << "searching...\n";
-		if (viewName == current->name)
-		{
-			cout << current->name << endl;
-			cout << current->age << endl;
-			cout << current->gender << endl;
-			cout << current->pRating << endl << endl;
-			current = current->next_ptr;
-			nameMatch = true;
-		}
-		else
-		{
-			current = current->next_ptr;
-			if (current == NULL)
-			{
-				if (nameMatch == false)
-				{
-					cout << "You have no friends with name: " << viewName << endl;
-				}
-			}
-		}
-	}
+	friendCnt++;
 }
 
 void filterFriend(node* current)// the menu for filtering.
 {
-	char gFilter;
-	int rFilter;
+	system("CLS");
 	if (isEmpty(current))
 	{
-		cout << "your friends list is empty\n";
+		cout << "your friend list is empty\n";
 	}
 	else
 	{
@@ -222,42 +229,64 @@ void filterFriend(node* current)// the menu for filtering.
 		cout << "a. sort friends by gender\n";
 		cout << "b. sort friends by popularity rating\n";
 		cin >> sortChoice;
-		cin.ignore();
 		switch (sortChoice)
 		{
 		case 'a':
-			cout << "enter the gender you want to sort\n";
-			cin >> gFilter;
-			cin.ignore();
-			filterGender(current, gFilter);
+			filterGender(current);
 			break;
 		case 'b':
-			cout << "enter the rating you want to filter\n";
-			cin >> rFilter;
-			cin.ignore();
-			filterRating(current, rFilter);
+			filterRating(current);
 			break;
 		}
 	}
 }
-void filterGender(node* current, char gFilter)//gender filter function. it will print all the matching inputted gender.
+
+void filterGender(node* current)//gender filter function. it will print all the matching inputted gender.
 {
-	cout << "gender filter\n";
+	char gFilter;
+	bool gCheck = false;
+	string gPrint="female";
 	bool genderMatch = false;
+	cout << "enter the gender you want to sort\n";
+	cin >> gFilter;
+	do {
+		if (gFilter != 'M')
+		{
+			if (gFilter != 'F')
+			{
+				gCheck = false;
+				cout << "please enter a valid gender(M or F)\n";
+				cin >> gFilter;
+			}
+			else
+			{
+				gCheck = true;
+			}
+		}
+		else
+		{
+			gCheck = true;
+		}
+	} while (gCheck == false);
+
+
+	if (gFilter == 'M')
+	{
+		gPrint = "male";
+	}
+	system("CLS");
+
 	while (current != NULL)
 	{
 		if (gFilter == current->gender)
 		{
-			cout << current->name << endl;
-			cout << current->age << endl;
-			cout << current->gender << endl;
-			cout << current->pRating << endl << endl;
+			if(genderMatch==false)	cout << "list of your friends that are " << gPrint << endl << endl;
+			printFriend(current);
 			current = current->next_ptr;
 			genderMatch = true;//once there's a matching gender, this will be true and will not print the prompt below
 		}
 		else
 		{
-			current = current->next_ptr;
 			if (current == NULL)//if you're at the last node and there are zero matches with the filter, it will run the code below
 			{
 				if (genderMatch == false)
@@ -265,21 +294,49 @@ void filterGender(node* current, char gFilter)//gender filter function. it will 
 					cout << "You have no friends with the selected gender\n";
 				}
 			}
+			current = current->next_ptr;
 		}
 	}
 }
-void filterRating(node* current, int rFilter)//popularity rating filter function. 
+
+void filterRating(node* current)//popularity rating filter function. 
 {
-	cout << "Popularity rating filter\n";
+	int rFilter;
 	bool ratingMatch = false;
+
+	cout << "enter the rating you want to filter\n";
+	cin >> rFilter;
+	do {
+		do {
+			do {
+				if (rFilter < 0)
+				{
+					validateInt();
+					cout << "please enter a valid popularity rating (0-100)\n";
+					cin >> rFilter;
+				}
+				if (rFilter > 100)
+				{
+					validateInt();
+					cout << "please enter a valid popularity rating (0-100)\n";
+					cin >> rFilter;
+				}
+				if (cin.fail())
+				{
+					validateInt();
+					cout << "please enter a valid popularity rating (0-100)\n";
+					cin >> rFilter;
+				}
+			} while (rFilter > 100);
+		} while (cin.fail());
+	} while (rFilter < 0);
+	system("CLS");
 	while (current != NULL)
 	{
 		if (current->pRating <= rFilter)
 		{
-			cout << current->name << endl;
-			cout << current->age << endl;
-			cout << current->gender << endl;
-			cout << current->pRating << endl << endl;
+			if(ratingMatch==false)	cout << "Friends with popularity rating less that or equal to " << rFilter << endl << endl;
+			printFriend(current);
 			current = current->next_ptr;
 			ratingMatch = true;//once there's a matching gender, this will be true and will not print the prompt below
 		}
@@ -295,4 +352,200 @@ void filterRating(node* current, int rFilter)//popularity rating filter function
 			}
 		}
 	}
+}
+
+void viewFriend(node* current)//view friend menu
+{
+	system("CLS");
+	char viewChoice;
+	if (isEmpty(current))
+	{
+		cout << "your friend list is empty\n";
+	}
+	else
+	{
+		cout << "a. view a specific person\n";
+		cout << "b. view your friends list\n";
+		cin >> viewChoice;
+		switch (viewChoice)
+		{
+		case 'a'://view specific person
+			system("CLS");
+			viewOneFriend(current);
+			break;
+		case 'b':
+			system("CLS");
+			cout << "---your Friend list---\n\n";
+			while (current != NULL)
+			{
+				printFriend(current);
+				current = current->next_ptr;
+			}
+			break;
+		}
+	}
+}
+
+void viewOneFriend(node* current)
+{
+	bool nameMatch = false;
+	string viewName;
+	cout << "enter your friend's complete name you want to view\n";
+	cin.ignore();
+	getline(cin, viewName);
+	cout << "searching for " << viewName << "..." << endl << endl;
+	while (current != NULL)
+	{
+		if (viewName == current->name)
+		{
+			printFriend(current);
+			current = current->next_ptr;
+			nameMatch = true;
+		}
+		else
+		{
+			current = current->next_ptr;
+			if (current == NULL)
+			{
+				if (nameMatch == false)
+				{
+					system("CLS");
+					cout << "You have no friends with name: " << viewName << endl;
+				}
+			}
+		}
+	}
+}
+
+void deleteFriend(node*& head, node* current)
+{
+	if (isEmpty(current))
+	{
+		system("CLS");
+		cout << "your friend list is empty\n";
+	}
+	else
+	{
+		char delChoice;
+		cout << "a. delete a friend by name\n";
+		cout << "b. delete friends based on popularity rating\n";
+		cin >> delChoice;
+		switch (delChoice)
+		{
+		case'a':
+			delOneFriend(head);
+			break;
+		case'b':
+			delRating(head);
+			break;
+		}
+	}
+}
+
+void delOneFriend(node*& head)
+{
+	string nameDelete;
+	bool nameMatch = false;
+	system("CLS");
+
+	cout << "enter your friend's full name you want to delete\n";
+	cin.ignore();
+	getline(cin, nameDelete);
+	node* now = new node;
+	node* prev = new node;
+	now = head;
+	cout << "searching for " << nameDelete << "'s account...\n\n";
+	while (now != NULL)
+	{
+		if (nameDelete == now->name)
+		{
+			friendCnt--;
+			nameMatch = true;
+			if (nameDelete == head->name)
+			{
+				head = now->next_ptr;
+			}
+			else
+			{
+				prev->next_ptr = now->next_ptr;
+			}
+			cout << nameDelete << " unfriended\n\n";
+		}
+		prev = now;
+		now = now->next_ptr;
+	}
+	if (nameMatch == false)
+	{
+		cout << "You have no friends with name: " << nameDelete << endl;
+	}
+
+}
+
+void delRating(node*& head)
+{
+	int ratingDelete;
+	bool ratingMatch = false;
+	system("CLS");
+
+	cout << "enter your friends' rating you want to unfriend\n";
+	cin >> ratingDelete;
+
+	do {
+		do {
+			do {
+				if (ratingDelete < 0)
+				{
+					validateInt();
+					cout << "please enter a valid popularity rating (0-100)\n";
+					cin >> ratingDelete;
+				}
+				if (ratingDelete > 100)
+				{
+					validateInt();
+					cout << "please enter a valid popularity rating (0-100)\n";
+					cin >> ratingDelete;
+				}
+				if (cin.fail())
+				{
+					validateInt();
+					cout << "please enter a valid popularity rating (0-100)\n";
+					cin >> ratingDelete;
+				}
+			} while (ratingDelete > 100);
+		} while (cin.fail());
+	} while (ratingDelete < 0);
+
+	node* now = new node;
+	node* prev = new node;
+	now = head;
+	cout << "unfriend with rating " << ratingDelete << "...\n\n";
+	while (now != NULL)
+	{
+		if (ratingDelete == now->pRating)
+		{
+			cout << now->name << " unfriended\n\n";
+			if (ratingDelete == head->pRating)
+			{
+				head = now->next_ptr;
+			}
+			else
+			{
+				prev->next_ptr = now->next_ptr;
+			}
+			ratingMatch = true;
+			friendCnt--;
+		}
+		prev = now;
+		now = now->next_ptr;
+	}
+	if (ratingMatch == false)
+	{
+		cout << "you do not have a friend with the popularity rating of: " << ratingDelete << endl;
+	}
+}
+
+void validateInt()
+{
+	cin.clear();
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
