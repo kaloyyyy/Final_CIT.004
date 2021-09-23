@@ -112,10 +112,24 @@ void deleteFriend (node *&head, string Name)
     }
 }
 
+
+void viewAllFriends (node *current)
+{
+	cout << "Current Records: \n";
+        while (current != NULL)
+        {
+            cout << "Name: "<< current->name << endl;
+            cout << "Gender: "<< current->gender << endl;
+            cout << "Age: "<< current->age << endl;
+             cout << "Popularity Rating: "<< current->rating << endl;
+            current = current->next_ptr;
+        }
+}
 void viewSpecFriend (node* current)
 {
 	bool nameMatch = false;
 	string searchFriend;
+	cin.ignore();
 	cout << "Enter name of friend\n";
 	getline(cin, searchFriend);
 	while (current != NULL)
@@ -126,7 +140,7 @@ void viewSpecFriend (node* current)
 			cout << current->name << endl;
 			cout << current->gender << endl;
 			cout << current->age << endl;
-			cout << current->rating << endl;
+			cout << current->rating << endl << endl;
 			current = current->next_ptr;
 			searchFriend = true;
 			
@@ -145,30 +159,18 @@ void viewSpecFriend (node* current)
 	}
 	
 }
-void viewAllFriends (node *current)
-{
-	cout << "Current Records: \n";
-        while (current != NULL)
-        {
-            cout << "Name: "<< current->name << endl;
-            cout << "Gender: "<< current->gender << endl;
-            cout << "Age: "<< current->age << endl;
-             cout << "Popularity Rating: "<< current->rating << endl;
-            current = current->next_ptr;
-        }
-}
 
 void viewFriend (node *&current)
 {
-	char choice;
+	char select;
 	if (isEmpty(current))
         cout << "No friends on friends list! \n";
     else
     {
         cout << "A. Show a person \n";
         cout << "B. Show All list \n";
-        cin >> choice;
-        switch (choice)
+        cin >> select;
+        switch (select)
         {
         	case 'A': 
         			viewSpecFriend (current);
@@ -185,10 +187,101 @@ void viewFriend (node *&current)
 }
 
 
+
+void genderFilter (node *&current)
+{
+	char sortbygender;
+	bool genderMatch = false;
+	cout << "Enter gender: \n";
+	cin >> sortbygender;
+	while (current != NULL)
+{
+		cout << "friend list: \n";
+		if (sortbygender == current->gender)
+		{
+				cout << current->name << endl;
+				cout << current->gender << endl;
+				cout << current->age << endl;
+				cout << current->rating << endl << endl;
+				current = current->next_ptr;
+				genderMatch = true;
+			}
+			else
+			{
+				current = current->next_ptr;
+				if (current == NULL)
+				{
+					if (genderMatch == false)
+					{
+						cout << "No results for: " << sortbygender <<endl;
+					}
+				}
+				current = current->next_ptr;
+			}
+		}
+}
+
+
+void ratingFilter (node *&current)
+{
+	int sortbyrating;
+	bool rateMatch = false;
+	cin.ignore();
+	cout << "Enter Popularity Rating: \n";
+	cin >> sortbyrating;
+	while (current != NULL)
+	{
+		cout << "friend list: \n";
+		if (sortbyrating == current->rating)
+		{
+				cout << current->name << endl;
+				cout << current->gender << endl;
+				cout << current->age << endl;
+				cout << current->rating << endl << endl;
+				current = current->next_ptr;
+				sortbyrating = true;
+			}
+			else
+			{
+				current = current->next_ptr;
+				if (current == NULL)
+				{
+					if (rateMatch == false)
+					{
+						cout << "No results for: " << sortbyrating <<endl;
+					}
+				}
+		}
+	}
+}
+
+
 void filterFriend (node *current)
 {
+	if (isEmpty(current))
+        cout << "No friends on friends list! \n";
+    else{
+    	char filselect;
+    		cout << "Sort by: \n";
+	    	 cout << "A. Gender \n";
+	        cout << "B. Popularity \n";
+	    cin >> filselect;
+	    cin.ignore();
+	    switch (filselect)
+	    {
+	    	case 'A':
+	    		genderFilter(current);
+	    		break;
+	    		
+	    	case 'B':
+	    		ratingFilter(current);
+	    		break;
+		}
+    	
+	}
 	
 }
+
 
 
 int main()
@@ -197,7 +290,7 @@ int main()
 	node *last = NULL;
 	char gender;
 	string Name;
-	char choices;
+	char choice;
 	string name;
 	int m, f;
 	int age = 0;
@@ -205,9 +298,9 @@ int main()
 	system ("CLS");
 	
 	do{
-		choices = menu();
+		choice = menu();
 		
-		switch(choices)
+		switch(choice)
 		{
 			case 'A':
 				
@@ -245,13 +338,15 @@ int main()
 				break;
 				
 			case 'D':
+				filterFriend(head);
+				break;
 				
 				
 			default: cout << "System exit\n";
 		}
 	} 
 	
-	while (choices != 'D');
+	while (choice != 'E');
 	cout << "Thankyou!";
 	return 0;
 }
