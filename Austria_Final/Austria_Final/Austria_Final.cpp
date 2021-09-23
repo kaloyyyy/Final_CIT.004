@@ -274,12 +274,12 @@ void filterGender(node* current)//gender filter function. it will print all the 
 		gPrint = "male";
 	}
 	system("CLS");
-	cout << "list of your friends that are "<<gPrint << endl;
 
 	while (current != NULL)
 	{
 		if (gFilter == current->gender)
 		{
+			if(genderMatch==false)	cout << "list of your friends that are " << gPrint << endl << endl;
 			printFriend(current);
 			current = current->next_ptr;
 			genderMatch = true;//once there's a matching gender, this will be true and will not print the prompt below
@@ -330,11 +330,11 @@ void filterRating(node* current)//popularity rating filter function.
 		} while (cin.fail());
 	} while (rFilter < 0);
 	system("CLS");
-	cout << "Friends with popularity rating less that or equal to "<<rFilter<<endl;
 	while (current != NULL)
 	{
 		if (current->pRating <= rFilter)
 		{
+			if(ratingMatch==false)	cout << "Friends with popularity rating less that or equal to " << rFilter << endl << endl;
 			printFriend(current);
 			current = current->next_ptr;
 			ratingMatch = true;//once there's a matching gender, this will be true and will not print the prompt below
@@ -517,7 +517,7 @@ void delRating(node*& head)
 	node* now = new node;
 	node* prev = new node;
 	now = head;
-	cout << "unfriending with rating " << ratingDelete << "...\n\n";
+	cout << "unfriend with rating " << ratingDelete << "...\n\n";
 	while (now != NULL)
 	{
 		if (ratingDelete == now->pRating)
