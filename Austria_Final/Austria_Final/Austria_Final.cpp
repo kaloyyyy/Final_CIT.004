@@ -18,6 +18,7 @@ string profile[4] = { "name: ","age: ","gender: ","popularity rating: " };
 int friendCnt = 0;
 char menu();
 bool isEmpty(node* head);
+void validateInt();
 void printFriend(node* current);
 
 void firstFriend(node*& head, node*& last, string name, int age, char gender, int pRating);
@@ -33,9 +34,6 @@ void viewOneFriend(node* current);
 void deleteFriend(node*&head, node*current);
 void delOneFriend(node*& head);
 void delRating(node*& head);
-
-void validateInt();
-
 
 int main()
 {
@@ -217,8 +215,6 @@ void addFriend(node*& head, node*& last, string name, int age, char gender, int 
 	friendCnt++;
 }
 
-
-
 void filterFriend(node* current)// the menu for filtering.
 {
 	system("CLS");
@@ -301,6 +297,7 @@ void filterGender(node* current)//gender filter function. it will print all the 
 		}
 	}
 }
+
 void filterRating(node* current)//popularity rating filter function. 
 {
 	int rFilter;
@@ -333,7 +330,6 @@ void filterRating(node* current)//popularity rating filter function.
 		} while (cin.fail());
 	} while (rFilter < 0);
 	system("CLS");
-
 	cout << "Friends with popularity rating less that or equal to "<<rFilter<<endl;
 	while (current != NULL)
 	{
