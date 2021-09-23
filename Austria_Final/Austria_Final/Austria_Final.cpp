@@ -1,6 +1,7 @@
 #include<iostream>
 #include<stdlib.h>//for system("CLS");
 #include<string>//for getline for string;
+#include<limits>//for limit in cin.ignore
 using namespace std;
 
 class node
