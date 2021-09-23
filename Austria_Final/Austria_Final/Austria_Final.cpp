@@ -34,6 +34,8 @@ void deleteFriend(node*&head, node*& last, node*current);
 void delOneFriend(node*& head);
 void delRating(node*& head);
 
+void validateInt();
+
 
 int main()
 {
@@ -58,33 +60,73 @@ int main()
 
 			cout << "enter " << name << "'s " << "age: \n";
 			cin >> age;
+			do{
+				if (age < 0)
+				{
+					validateInt();
+					cout << "please enter a valid age\n";
+					cin >> age;
+				}
+				do {
+					if (cin.fail())
+					{
+						validateInt();
+						cout << "please enter a valid age\n";
+						cin >> age;
+					}
+				} while (cin.fail());
+			} while (age < 0);
 
 			cout << "enter " << name << "'s " << "gender: (M or F)\n";
 			cin >> gender;
+			cin.ignore();
 			do {
-				if (gender == 'M')
+				if (gender != 'M')
 				{
-					bool gCheck = true;
-				}
-				else if (gender == 'F')
-				{
-					bool gCheck = true;
+					if (gender != 'F')
+					{
+						gCheck = false;
+						cout << "please enter a valid gender(M or F)\n";
+						cin >> gender;
+					}
+					else
+					{
+						gCheck = true;
+					}
 				}
 				else
 				{
-					cout << "please enter a valid gender(M or F)\n";
-					bool gCheck = false;
-					cin >> gender;
+					gCheck = true;
 				}
 			} while (gCheck == false);
 
 			cout << "enter " << name << "'s " << "Popularity Rating: (0-100)\n";
 			cin >> pRating;
-			while (pRating > 100)
-			{
-				cout << "please re-enter a valid popularity rating (0-100)\n";
-				cin >> pRating;
-			}
+			do {
+				do {
+					do {
+						if (pRating < 0)
+						{
+							validateInt();
+							cout << "please enter a valid popularity rating (0-100)\n";
+							cin >> pRating;
+						}
+						if (pRating > 100)
+						{
+							validateInt();
+							cout << "please enter a valid popularity rating (0-100)\n";
+							cin >> pRating;
+						}
+						if (cin.fail())
+						{
+							validateInt();
+							cout << "please enter a valid popularity rating (0-100)\n";
+							cin >> pRating;
+						}
+					} while (pRating > 100);
+				} while (cin.fail());
+			} while (pRating < 0);
+
 			system("CLS");
 			cout<<name<<" is now your friend!\n\n";
 			addFriend(head, last, name, age, gender, pRating);
@@ -95,9 +137,11 @@ int main()
 			filterFriend(head);
 			break;
 		case 'c':
+			system("CLS");
 			viewFriend(head);
 			break;
 		case 'd':
+			system("CLS");
 			deleteFriend(head,last,head);
 		}
 	} while (choice != 'e');
@@ -209,19 +253,22 @@ void filterGender(node* current)//gender filter function. it will print all the 
 	cout << "enter the gender you want to sort\n";
 	cin >> gFilter;
 	do {
-		if (gFilter == 'M')
+		if (gFilter != 'M')
 		{
-			bool gCheck = true;
-		}
-		else if (gFilter == 'F')
-		{
-			bool gCheck = true;
+			if (gFilter != 'F')
+			{
+				gCheck = false;
+				cout << "please enter a valid gender(M or F)\n";
+				cin >> gFilter;
+			}
+			else
+			{
+				gCheck = true;
+			}
 		}
 		else
 		{
-			cout << "please enter a valid gender(M or F)\n";
-			bool gCheck = false;
-			cin >> gFilter;
+			gCheck = true;
 		}
 	} while (gCheck == false);
 
@@ -231,7 +278,7 @@ void filterGender(node* current)//gender filter function. it will print all the 
 		gPrint = "male";
 	}
 	system("CLS");
-	cout << "filtering your friends that are "<<gPrint << endl;
+	cout << "list of your friends that are "<<gPrint << endl;
 
 	while (current != NULL)
 	{
@@ -261,11 +308,30 @@ void filterRating(node* current)//popularity rating filter function.
 
 	cout << "enter the rating you want to filter\n";
 	cin >> rFilter;
-	while (rFilter > 100)
-	{
-		cout << "please re-enter a valid popularity rating (0-100)\n";
-		cin >> rFilter;
-	}
+	do {
+		do {
+			do {
+				if (rFilter < 0)
+				{
+					validateInt();
+					cout << "please enter a valid popularity rating (0-100)\n";
+					cin >> rFilter;
+				}
+				if (rFilter > 100)
+				{
+					validateInt();
+					cout << "please enter a valid popularity rating (0-100)\n";
+					cin >> rFilter;
+				}
+				if (cin.fail())
+				{
+					validateInt();
+					cout << "please enter a valid popularity rating (0-100)\n";
+					cin >> rFilter;
+				}
+			} while (rFilter > 100);
+		} while (cin.fail());
+	} while (rFilter < 0);
 	system("CLS");
 
 	cout << "Friends with popularity rating less that or equal to "<<rFilter<<endl;
@@ -311,7 +377,8 @@ void viewFriend(node* current)//view friend menu
 			viewOneFriend(current);
 			break;
 		case 'b':
-			cout << "---Your Friends list---\n";
+			system("CLS");
+			cout << "---your Friend list---\n\n";
 			while (current != NULL)
 			{
 				printFriend(current);
@@ -329,9 +396,9 @@ void viewOneFriend(node* current)
 	cout << "enter your friend's complete name you want to view\n";
 	cin.ignore();
 	getline(cin, viewName);
+	cout << "searching for " << viewName << "..." << endl << endl;
 	while (current != NULL)
 	{
-		cout << "searching for " << viewName <<"..." << endl << endl;
 		if (viewName == current->name)
 		{
 			printFriend(current);
@@ -395,6 +462,7 @@ void delOneFriend(node*& head)
 	{
 		if (nameDelete == now->name)
 		{
+			friendCnt--;
 			nameMatch = true;
 			if (nameDelete == head->name)
 			{
@@ -404,11 +472,10 @@ void delOneFriend(node*& head)
 			{
 				prev->next_ptr = now->next_ptr;
 			}
-			cout << nameDelete << " is now removed from your friend list\n";
+			cout << nameDelete << " unfriended\n\n";
 		}
 		prev = now;
 		now = now->next_ptr;
-		friendCnt--;
 	}
 	if (nameMatch == false)
 	{
@@ -425,14 +492,41 @@ void delRating(node*& head)
 
 	cout << "enter your friends' rating you want to unfriend\n";
 	cin >> ratingDelete;
+
+	do {
+		do {
+			do {
+				if (ratingDelete < 0)
+				{
+					validateInt();
+					cout << "please enter a valid popularity rating (0-100)\n";
+					cin >> ratingDelete;
+				}
+				if (ratingDelete > 100)
+				{
+					validateInt();
+					cout << "please enter a valid popularity rating (0-100)\n";
+					cin >> ratingDelete;
+				}
+				if (cin.fail())
+				{
+					validateInt();
+					cout << "please enter a valid popularity rating (0-100)\n";
+					cin >> ratingDelete;
+				}
+			} while (ratingDelete > 100);
+		} while (cin.fail());
+	} while (ratingDelete < 0);
+
 	node* now = new node;
 	node* prev = new node;
 	now = head;
-	cout << "searching for friends with a rating of: " << ratingDelete << "\n\n";
+	cout << "unfriending with rating " << ratingDelete << "...\n\n";
 	while (now != NULL)
 	{
 		if (ratingDelete == now->pRating)
 		{
+			cout << now->name << " unfriended\n\n";
 			if (ratingDelete == head->pRating)
 			{
 				head = now->next_ptr;
@@ -441,6 +535,7 @@ void delRating(node*& head)
 			{
 				prev->next_ptr = now->next_ptr;
 			}
+			ratingMatch = true;
 			friendCnt--;
 		}
 		prev = now;
@@ -450,4 +545,10 @@ void delRating(node*& head)
 	{
 		cout << "you do not have a friend with the popularity rating of: " << ratingDelete << endl;
 	}
+}
+
+void validateInt()
+{
+	cin.clear();
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
