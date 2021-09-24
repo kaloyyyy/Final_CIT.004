@@ -191,8 +191,8 @@ void viewAllFriends (node *current)
 }
 void viewSpecFriend (node* current)
 {
-	string searchFriend;
 	bool nameMatch = false;
+	string searchFriend;
 	cout << "Enter name of friend\n";
 	cin.ignore();
 	getline(cin, searchFriend);
@@ -231,7 +231,9 @@ void viewFriend (node *current)
 	system ("CLS");
 	char select;
 	if (isEmpty(current))
+	{
         cout << "No friends on friends list! \n";
+    }
     else
     {
         cout << "A. Show a person \n";
