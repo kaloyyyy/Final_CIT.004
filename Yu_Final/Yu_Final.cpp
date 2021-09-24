@@ -369,7 +369,7 @@ int main()
 	int age = 0;
 	int rating = 0;
 	system("CLS");
-
+	
 	do {
 		choice = menu();
 		switch (choice)
