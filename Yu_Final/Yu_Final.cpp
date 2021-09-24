@@ -1,5 +1,5 @@
-#include <iostream>
-
+ #include <iostream>
+#include <string>
 using namespace std;
 
 
@@ -76,45 +76,109 @@ void addFriend (node *&head, node *&last, string name, char gender, int age, int
 	}
 	
 	system ("CLS");
-	cout << "Recorded!" ;
+	cout << "Recorded! \n" ;
 }
-void deleteFriend (node *&head, string Name)
-{
-    node* traverse = head;
-    node* previous = NULL;
-     
 
-    if (traverse != NULL && traverse->name == Name)//instead of && (and) operator, try mo 'if' within a 'if' operator.
-    {//also may loop yung delete ko, while(traverse!=NULL).
-        head = traverse->next_ptr; 
-        delete traverse;            
-        return;
-    }
- 
-   
-      else
+void deleteSpecFriend(node *&head)
+{
+	bool nameMatch = false;
+	string deleteFriend;
+	cin.ignore();
+	cout << "Enter name of friend you wish to unfriend \n";
+	getline(cin, deleteFriend);
+	node* temp = head;
+    node* previous = NULL;
+    if (temp != NULL && temp->name == deleteFriend)
     {
-    while (traverse != NULL && traverse->name != Name)
+        head = temp->next_ptr;
+        delete temp;            
+		
+		
+		
+	}
+	else 
+	{
+		while (temp != NULL && temp->name != deleteFriend)
+		{
+			previous = temp;
+			temp = temp->next_ptr;
+		}
+		if (temp == NULL)
+			return;
+			
+			previous->next_ptr = temp->next_ptr;
+			
+			delete temp;
+		}
+	
+}
+
+void deleteRating(node *&head)
+{
+	bool rateMatch = false;
+	int rateDelete;
+	cout << "Enter Popularity rating of friend that you wish you want to delete: \n";
+	cin >> rateDelete;
+	node* temp = head;
+    node* previous = NULL;
+    if (temp != NULL && temp->rating == rateDelete)
     {
-        previous = traverse;
-        traverse = traverse->next_ptr;
+        head = temp->next_ptr;
+        delete temp;            
+		
+		
+		
+	}
+	else 
+	{
+		while (temp != NULL && temp->rating != rateDelete)
+		{
+			previous = temp;
+			temp = temp->next_ptr;
+		}
+		if (temp == NULL)
+			return;
+			
+			previous->next_ptr = temp->next_ptr;
+			
+			delete temp;
+		}
+	
+}
+
+
+void deleteFriend (node *&head, node *&last, node *current)
+{
+    char Delselect;
+	if (isEmpty(current))
+	{
+        cout << "No friends on friends list! \n";
     }
- 
-    
-    if (traverse == NULL)
-        return;
- 
-  
-    previous->next_ptr = traverse->next_ptr;
- 
-    
-    delete traverse;
-    }
+    else
+    {
+    	char Delselect;
+    	cout << "Delete by: \n";
+    	cout << "A. Name \n";
+        cout << "B. Popularity Rating \n";
+        cin >> Delselect;
+        switch (Delselect)
+        {
+        	case 'A':
+        		deleteSpecFriend(head);
+        		break;
+        		
+        	case 'B':
+        		deleteRating(head);
+        		break;
+        		
+		}
+	}
 }
 
 
 void viewAllFriends (node *current)
 {
+	system ("CLS");
 	cout << "Current Records: \n";
         while (current != NULL)
         {
@@ -127,14 +191,15 @@ void viewAllFriends (node *current)
 }
 void viewSpecFriend (node* current)
 {
-	bool nameMatch = false;
 	string searchFriend;
-	cin.ignore();
+	bool nameMatch = false;
 	cout << "Enter name of friend\n";
+	cin.ignore();
 	getline(cin, searchFriend);
+	system ("CLS");
+	cout << "friend list: \n";
 	while (current != NULL)
 	{
-		cout << "friend list: \n";
 		if (searchFriend == current->name)
 		{
 			cout << current->name << endl;
@@ -152,7 +217,8 @@ void viewSpecFriend (node* current)
 			{
 				if (nameMatch == false)
 				{
-					cout << "No results for: " << searchFriend <<endl;
+					system ("CLS");
+					cout << "No results for: " << searchFriend<<endl;
 				}
 			}
 		}
@@ -160,8 +226,9 @@ void viewSpecFriend (node* current)
 	
 }
 
-void viewFriend (node *&current)
+void viewFriend (node *current)
 {
+	system ("CLS");
 	char select;
 	if (isEmpty(current))
         cout << "No friends on friends list! \n";
@@ -188,17 +255,20 @@ void viewFriend (node *&current)
 
 
 
-void genderFilter (node *&current)
+void genderFilter (node *current)
 {
+	system ("CLS");
 	char sortbygender;
 	bool genderMatch = false;
 	cout << "Enter gender: \n";
 	cin >> sortbygender;
+	system ("CLS");
 	while (current != NULL)
 {
 		cout << "friend list: \n";
 		if (sortbygender == current->gender)
 		{
+			
 				cout << current->name << endl;
 				cout << current->gender << endl;
 				cout << current->age << endl;
@@ -222,18 +292,19 @@ void genderFilter (node *&current)
 }
 
 
-void ratingFilter (node *&current)
+void ratingFilter (node *current)
 {
+	system ("CLS");
 	int sortbyrating;
 	bool rateMatch = false;
-	cin.ignore();
 	cout << "Enter Popularity Rating: \n";
 	cin >> sortbyrating;
 	while (current != NULL)
 	{
-		cout << "friend list: \n";
-		if (sortbyrating == current->rating)
+		if (current->rating <= sortbyrating)
 		{
+			if (rateMatch == false)
+				cout << "friend list: \n";
 				cout << current->name << endl;
 				cout << current->gender << endl;
 				cout << current->age << endl;
@@ -258,6 +329,7 @@ void ratingFilter (node *&current)
 
 void filterFriend (node *current)
 {
+	system ("CLS");
 	if (isEmpty(current))
         cout << "No friends on friends list! \n";
     else{
@@ -289,7 +361,6 @@ int main()
 	node *head = NULL;
 	node *last = NULL;
 	char gender;
-	string Name;
 	char choice;
 	string name;
 	int m, f;
@@ -299,7 +370,7 @@ int main()
 	
 	do{
 		choice = menu();
-		
+		system ("CLS");
 		switch(choice)
 		{
 			case 'A':
@@ -310,7 +381,7 @@ int main()
 				
 				cout << "Please enter gender: ";
 				cin >> gender;
-				if (gender == 'm' || gender == 'M' || gender == 'f' || gender == 'F');
+				if (gender == 'M' || gender == 'F');
 				else{
 					
 				cout << "invalid gender. Please input m (M) or f (F) \n ";
@@ -319,22 +390,45 @@ int main()
 				
 				cout << "Please enter age: ";
 				cin >> age;
+				do
+				{
+				if (age < 1)
+				{
+				cout << "Invalid age please input again!";
+				cin >> age;
+			}
+		}
+			while (age < 0);
+				
 	
-				cout << "Please enter Popularity Rating: ";
+				cout << "Please enter Popularity Rating from 1-100: ";
 				cin >> rating;
+				
+				do
+				{
+					if (rating < 0)
+					{
+						cout << "Invalid popularity rating please input again!";
+						cin >> rating;
+					}
+					if (rating > 100)
+					{
+						cout << "Invalid popularity rating please input again!";
+						cin >> rating;
+
+					}
+				} while (rating > 100 || rating < 0);
 			
 				addFriend (head, last, name, gender, age, rating);
 				break;
 				
 			case 'B':
-				cin >> Name;//kerbs try mo getline if you want full name. tapos ibang string dapat. something like string delName or similar
-				deleteFriend (head, Name);//pwede mo ilagay yung cin mo sa deletefriend itself, para deletefriend(head); nalang siya dito
-			    viewFriend (head);
+				deleteFriend (head, last, head);
 			    break;
 			    
 			    
 			case 'C':
-				viewFriend (head);
+				viewFriend(head);
 				break;
 				
 			case 'D':
@@ -349,4 +443,5 @@ int main()
 	while (choice != 'E');
 	cout << "Thankyou!";
 	return 0;
-}
+}          
+	
