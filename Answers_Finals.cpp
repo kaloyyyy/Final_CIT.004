@@ -28,7 +28,7 @@ A:two-dimensional arr has 4 rows and 7 columns
 
 
 Q:What happens when passing by reference is done to a variable when calling a function?
-A:
+A:The value of the variable is changed in the main function even after the instructions in the function are finished executing
 
 
 
@@ -76,7 +76,7 @@ A:
 
 
 Q:What happens when ofstream myfile.open("savefile.txt") does not find the file it is looking for?
-A:
+A:It creates the file with the same filename specified
 
 
 
