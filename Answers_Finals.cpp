@@ -71,7 +71,7 @@ jose.memberid.id=501;
 
 
 Q:Which of the following statements is true about C++ structs?
-A:
+A:structures are allowed to use other structures as a data type of its members
 
 
 
@@ -81,7 +81,7 @@ A:It creates the file with the same filename specified
 
 
 Q:What would happen if a program tries to read a file which it cannot open?
-A:
+A: it would crash
 
 
 
