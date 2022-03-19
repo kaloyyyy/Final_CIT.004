@@ -1,0 +1,4 @@
+﻿  Exam_Answer.cpp
+C:\Users\kaloy\Documents\GitHub\Final_CIT.004\Exam_Answer\Exam_Answer\Exam_Answer\Exam_Answer.cpp(450,6): warning C4101: 'm': unreferenced local variable
+C:\Users\kaloy\Documents\GitHub\Final_CIT.004\Exam_Answer\Exam_Answer\Exam_Answer\Exam_Answer.cpp(450,9): warning C4101: 'f': unreferenced local variable
+  Exam_Answer.vcxproj -> C:\Users\kaloy\Documents\GitHub\Final_CIT.004\Exam_Answer\Exam_Answer\Debug\Exam_Answer.exe
