@@ -1,2 +1,13 @@
 ﻿  Austria_Final.cpp
-  Austria_Final.vcxproj -> C:\Users\kaloy\Documents\GitHub\Final_CIT.004\Austria_Final\Debug\Austria_Final.exe
+C:\Users\kaloy\Documents\GitHub\Final_CIT.004\Austria_Final\Austria_Final\Austria_Final.cpp(201,5): error C2872: 'is_empty': ambiguous symbol
+C:\Users\kaloy\Documents\GitHub\Final_CIT.004\Austria_Final\Austria_Final\Austria_Final.cpp(174,6): message : could be 'bool is_empty(node *)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\type_traits(522,1): message : or       'std::is_empty'
+C:\Users\kaloy\Documents\GitHub\Final_CIT.004\Austria_Final\Austria_Final\Austria_Final.cpp(224,5): error C2872: 'is_empty': ambiguous symbol
+C:\Users\kaloy\Documents\GitHub\Final_CIT.004\Austria_Final\Austria_Final\Austria_Final.cpp(174,6): message : could be 'bool is_empty(node *)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\type_traits(522,1): message : or       'std::is_empty'
+C:\Users\kaloy\Documents\GitHub\Final_CIT.004\Austria_Final\Austria_Final\Austria_Final.cpp(363,5): error C2872: 'is_empty': ambiguous symbol
+C:\Users\kaloy\Documents\GitHub\Final_CIT.004\Austria_Final\Austria_Final\Austria_Final.cpp(174,6): message : could be 'bool is_empty(node *)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\type_traits(522,1): message : or       'std::is_empty'
+C:\Users\kaloy\Documents\GitHub\Final_CIT.004\Austria_Final\Austria_Final\Austria_Final.cpp(424,5): error C2872: 'is_empty': ambiguous symbol
+C:\Users\kaloy\Documents\GitHub\Final_CIT.004\Austria_Final\Austria_Final\Austria_Final.cpp(174,6): message : could be 'bool is_empty(node *)'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\type_traits(522,1): message : or       'std::is_empty'
